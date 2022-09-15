@@ -45,7 +45,7 @@ namespace ExchangeRatesAPI.Services
             return rates;
         }
 
-        public async Task<bool> InsertExchangeRate(string currencyCode, decimal rate, string date)
+        public async Task<bool> UpsertExchangeRate(string currencyCode, decimal rate, string date)
         {
             try
             {

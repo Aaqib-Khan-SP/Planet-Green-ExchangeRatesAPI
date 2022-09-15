@@ -51,7 +51,7 @@ namespace ExchangeRatesAPI.Controllers
         [HttpPost(Name = nameof(InsertRate))]
         public async Task<ActionResult<ExchangeRate>> InsertRate(string currencyCode, decimal rate, string date)
         {
-            var response = _exchangeRatesService.InsertExchangeRate(currencyCode, rate, date);
+            var response = _exchangeRatesService.UpsertExchangeRate(currencyCode, rate, date);
             if (!response.Result)
             {
                 return BadRequest("Error inserting rate");
