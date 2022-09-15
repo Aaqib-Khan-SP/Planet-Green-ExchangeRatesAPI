@@ -8,20 +8,32 @@ namespace ExchangeRatesAPI.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var Auth = (IAuth) context.HttpContext.RequestServices.GetService(typeof(IAuth));
-            string token = String.Empty;
-            if (context.HttpContext.Request.Headers.ContainsKey("Authorization"))
+            try
             {
-                token = context.HttpContext.Request.Headers.First(x => x.Key == "Authorization").Value.ToString().Replace("Bearer ", string.Empty);
-
-                try
+                var Auth = (IAuth)context.HttpContext.RequestServices.GetService(typeof(IAuth));
+                string token = String.Empty;
+                if (context.HttpContext.Request.Headers.ContainsKey("Authorization"))
                 {
-                    var claimPrinciple = Auth.VerifyToken(token);
+                    token = context.HttpContext.Request.Headers.First(x => x.Key == "Authorization").Value.ToString().Replace("Bearer ", string.Empty);
+
+                    try
+                    {
+                        var claimPrinciple = Auth.VerifyToken(token);
+                    }
+                    catch (Exception ex)
+                    {
+                        context.ModelState.AddModelError("Unauthorized", ex.ToString());
+                        context.Result = new UnauthorizedObjectResult(context.ModelState);
+                    }
                 }
-                catch(Exception ex){
-                    context.ModelState.AddModelError("Unauthorized", ex.ToString());
-                    context.Result = new UnauthorizedObjectResult(context.ModelState);
+                else
+                {
+                    throw new Exception("Token Missing");
                 }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
         }
