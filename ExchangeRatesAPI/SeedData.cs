@@ -14,8 +14,9 @@ namespace ExchangeRatesAPI
             {
                 return;
             }
-            context.ExchangeRates.Add(new ExchangeRatesEntity()
+            context.ExchangeRates.Add(new ExchangeRateEntity()
             {
+                CurrencyCode = "USD",
                 CurrencyName = "U.S. dollar",
                 Date = DateTime.Today,
                 Rate = 1

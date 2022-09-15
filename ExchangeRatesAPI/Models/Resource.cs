@@ -4,7 +4,7 @@ namespace ExchangeRatesAPI.Models
 {
     public abstract class Resource
     {
-        [JsonProperty(Order = -1)]
+        [JsonProperty(Order = -2)]
         public string Href { get; set; }
     }
 }

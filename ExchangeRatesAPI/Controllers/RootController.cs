@@ -15,7 +15,7 @@ namespace ExchangeRatesAPI.Controllers
                 href = Url.Link(nameof(GetRoot), null),
                 currency = new
                 {
-                    href = Url.Link(nameof(ExchangeRatesController.GetExchangeRates),null)
+                    href = Url.Link(nameof(ExchangeRatesController.GetExchangeRatesForCurrency),null)
                 }
             };
             return Ok(response);

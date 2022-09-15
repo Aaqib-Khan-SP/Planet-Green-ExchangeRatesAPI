@@ -8,7 +8,7 @@ namespace ExchangeRatesAPI
         public ExchangeRatesDBContext(DbContextOptions options) :base(options)
         {
         }
-        public DbSet<ExchangeRatesEntity> ExchangeRates { get; set; }
+        public DbSet<ExchangeRateEntity> ExchangeRates { get; set; }
 
     }
 }
