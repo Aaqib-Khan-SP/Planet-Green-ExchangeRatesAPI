@@ -1,9 +1,13 @@
-﻿namespace ExchangeRatesAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace ExchangeRatesAPI.Models
 {
-    public class ExchangeRate : Resource
+    public class ExchangeRate
     {
+        public string Date { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string CurrencyCode { get; set; }
-        public string CurrencyName { get; set; }
-        public DayRate? Rates { get; set; }
+        public decimal Rate { get; set; }
     }
 }

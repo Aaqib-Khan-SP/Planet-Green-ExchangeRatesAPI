@@ -16,10 +16,21 @@ namespace ExchangeRatesAPI
             }
             context.ExchangeRates.Add(new ExchangeRateEntity()
             {
+                Date = DateTime.Today.ToString("d"),
+                Rate = 12.3m,
                 CurrencyCode = "USD",
-                CurrencyName = "U.S. dollar",
-                Date = DateTime.Today,
-                Rate = 1
+            });
+            context.ExchangeRates.Add(new ExchangeRateEntity()
+            {
+                Date = DateTime.Today.ToString("d"),
+                Rate = 22.3m,
+                CurrencyCode = "USD",
+            });
+            context.ExchangeRates.Add(new ExchangeRateEntity()
+            {
+                Date = DateTime.Today.ToString("d"),
+                Rate = 109.3m,
+                CurrencyCode = "INR",
             });
             await context.SaveChangesAsync();
         }

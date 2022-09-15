@@ -4,6 +4,7 @@ namespace ExchangeRatesAPI.Services
 {
     public interface IExchangeRates
     {
-        Task<ExchangeRate> GetExchangeRates(string currencyCode); 
+        Task<IEnumerable<ExchangeRates>> GetExchangeRates(string currencyCode, string date);
+        Task<bool> InsertExchangeRate(string currencyCode, decimal rate, string date);
     }
 }

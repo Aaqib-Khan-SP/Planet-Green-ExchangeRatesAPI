@@ -2,11 +2,12 @@ using ExchangeRatesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExchangeRatesAPI.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ExchangeRatesAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/[controller]")]
     public class ExchangeRatesController : ControllerBase
     {
         public readonly IExchangeRates _exchangeRatesService;
@@ -15,22 +16,26 @@ namespace ExchangeRatesAPI.Controllers
             _exchangeRatesService = exchangeRatesService;
         }
 
-        [HttpGet(Name = nameof(GetExchangeRatesForCurrency))]
-        public async Task<ActionResult<ExchangeRate>> GetExchangeRatesForCurrency([FromQuery] string currencyCode)
+        [HttpGet(Name = nameof(GetExchangeRates))]
+        public async Task<ActionResult<ExchangeRate>> GetExchangeRates([FromQuery] string? currencyCode, string? date)
         {
-            var data = _exchangeRatesService.GetExchangeRates(currencyCode).GetAwaiter().GetResult();
+            var data = _exchangeRatesService.GetExchangeRates(currencyCode, date).GetAwaiter().GetResult();
             if (data == null)
             {
                 return NotFound();
             }
-            var resource = new ExchangeRate
+            return Ok(data);
+        }
+
+        [HttpPost(Name = nameof(InsertRate))]
+        public async Task<ActionResult<ExchangeRate>> InsertRate(string currencyCode, decimal rate, string date)
+        {
+            var response = _exchangeRatesService.InsertExchangeRate(currencyCode, rate, date);
+            if (!response.Result)
             {
-                Href = Url.Link(nameof(GetExchangeRatesForCurrency), new { currencyCode = currencyCode }),
-                CurrencyCode = currencyCode,
-                CurrencyName = data.CurrencyName,
-                Rates = data.Rates
-            };
-            return resource;
+                return BadRequest("Error inserting rate");
+            }
+            return Ok("Insert Successfull");
         }
 
     }
